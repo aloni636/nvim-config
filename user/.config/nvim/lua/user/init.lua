@@ -175,6 +175,9 @@ local config = {
     mappings = {
       n = {
         -- ["<leader>lf"] = false -- disable formatting keymap
+        ["<leader>lk"] = {function ()
+          vim.lsp.buf.hover()
+        end, desc="Hover help"}
       },
     },
     -- add to the global LSP on_attach function
@@ -623,7 +626,9 @@ local config = {
     -- vim.api.nvim_create_autocmd({ "BufWinEnter", "WinEnter" },
     --   { pattern = { "term://*", }, command = "startinsert", desc = "Terminal auto insert" })
 
-    vim.api.nvim_create_autocmd({"TermOpen" ,"BufWinEnter"}, {
+    -- auto insert mode when creating terminals, entering from another buffer 
+    -- and when switching to a terminal in a split window
+    vim.api.nvim_create_autocmd({"TermOpen" ,"BufWinEnter", "BufEnter"}, {
       pattern = {"term://*"},
       command = "normal! i",
     })
