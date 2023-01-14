@@ -203,6 +203,7 @@ local config = {
           },
         },
       },
+      pyright = { settings = { python = { analysis = { autoImportCompletions = false } } } },
       -- example for addings schemas to yamlls
       -- yamlls = { -- override table for require("lspconfig").yamlls.setup({...})
       --    settings = {
@@ -435,6 +436,7 @@ local config = {
       },
       -- :me: flit for life!
       ["ggandor/flit.nvim"] = { config = function() require("flit").setup {} end },
+      ["mg979/vim-visual-multi"] = {},
       -- ["kevinhwang91/nvim-ufo"] = {
       --   requires = "kevinhwang91/promise-async",
       --   config = function()
@@ -626,6 +628,13 @@ local config = {
     -- :me: update fold when entering buffer
     vim.api.nvim_create_autocmd({ "BufEnter" }, { command = "norm zx", desc = "Restart treesitter folding" })
 
+    vim.api.nvim_create_autocmd({ "TextChanged", "InsertLeave" }, {
+      callback = function()
+        pcall(function() vim.fn.write() end)
+      end,
+      desc = "Autosave",
+    })
+
     -- vim.api.nvim_create_autocmd({ "BufWinEnter", "WinEnter" },
     --   { pattern = { "term://*", }, command = "startinsert", desc = "Terminal auto insert" })
 
@@ -636,6 +645,29 @@ local config = {
       command = "normal! i",
     })
 
+    -- vim-visual-multi configs
+    vim.api.nvim_exec(
+      [[
+        let g:VM_default_mappings = 0
+        let g:VM_theme = 'ocean'
+
+        let g:VM_Mono_hl   = 'DiffText'
+        let g:VM_Extend_hl = 'DiffAdd'
+        let g:VM_Cursor_hl = 'Visual'
+        let g:VM_Insert_hl = 'DiffChange'
+
+        "to view the keys proper names for mapping check out vim-visual-multi/autoload/vm/maps/all.vim
+        let g:VM_maps = {}
+
+        let g:VM_maps['Add Cursor Up'] = '<M-Up>'
+        let g:VM_maps['Add Cursor Down'] = '<M-Down>'
+        let g:VM_maps['Add Cursor At Pos'] = '<M-a>'
+        let g:VM_maps['Find Under'] = '<M-n>'
+        let g:VM_maps['Find Subword Under'] = '<M-n>'
+        " let g:VM_maps['Start Regex Search'] = '<M-/>'
+        ]],
+      false
+    )
     -- vim.api.cmd "filetype indent off"
     -- vim.cmd "autocmd BufReadPost,FileReadPost * normal zR"
     -- :me: Additional vimscript cmds:
