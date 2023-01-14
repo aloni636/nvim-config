@@ -175,9 +175,7 @@ local config = {
     mappings = {
       n = {
         -- ["<leader>lf"] = false -- disable formatting keymap
-        ["<leader>lk"] = {function ()
-          vim.lsp.buf.hover()
-        end, desc="Hover help"}
+        ["<leader>lk"] = { function() vim.lsp.buf.hover() end, desc = "Hover help" },
       },
     },
     -- add to the global LSP on_attach function
@@ -277,7 +275,10 @@ local config = {
           }
         end,
       },
-      ["<leader>bs"] = { function () require("telescope.builtin").current_buffer_fuzzy_find { cache_picker = false } end, desc = "Search buffer" },
+      ["<leader>bs"] = {
+        function() require("telescope.builtin").current_buffer_fuzzy_find { cache_picker = false } end,
+        desc = "Search buffer",
+      },
       -- :me: ui pannel customize!
       ["<leader>uw"] = {
         function()
@@ -292,7 +293,7 @@ local config = {
         end,
         desc = "Toggle wrap",
       },
-      ["<leader>uI"] = {"<cmd>IndentBlanklineToggle<cr>", desc = "Toggle indent lines"},
+      ["<leader>uI"] = { "<cmd>IndentBlanklineToggle<cr>", desc = "Toggle indent lines" },
       -- ["<leader>ud"] = {
       --   function()
       --
@@ -386,23 +387,25 @@ local config = {
       ["ggandor/leap.nvim"] = {
         config = function() require("leap").add_default_mappings() end,
       },
-      ["ggandor/leap-spooky.nvim"] = { config = function()
-        require("leap-spooky").setup {
-          affixes = {
-            -- These will generate mappings for all native text objects, like:
-            -- (ir|ar|iR|aR|im|am|iM|aM){obj}.
-            -- Special line objects will also be added, by repeating the affixes.
-            -- E.g. `yrr<leap>` and `ymm<leap>` will yank a line in the current
-            -- window.
-            -- You can also use 'rest' & 'move' as mnemonics.
-            remote = { window = "r", cross_window = "R" },
-            magnetic = { window = "m", cross_window = "M" },
-          },
+      ["ggandor/leap-spooky.nvim"] = {
+        config = function()
+          require("leap-spooky").setup {
+            affixes = {
+              -- These will generate mappings for all native text objects, like:
+              -- (ir|ar|iR|aR|im|am|iM|aM){obj}.
+              -- Special line objects will also be added, by repeating the affixes.
+              -- E.g. `yrr<leap>` and `ymm<leap>` will yank a line in the current
+              -- window.
+              -- You can also use 'rest' & 'move' as mnemonics.
+              remote = { window = "r", cross_window = "R" },
+              magnetic = { window = "m", cross_window = "M" },
+            },
 
-          -- at the cursor position if the unnamed register is in use.
-          paste_on_remote_yank = false,
-        }
-      end },
+            -- at the cursor position if the unnamed register is in use.
+            paste_on_remote_yank = false,
+          }
+        end,
+      },
       ["smjonas/live-command.nvim"] = {
         config = function()
           require("live-command").setup {
@@ -559,7 +562,7 @@ local config = {
       return config -- return final config table
     end,
     treesitter = { -- overrides `require("treesitter").setup(...)`
-      ensure_installed = { "lua", "python",  "markdown", "help", "bash"},
+      ensure_installed = { "lua", "python", "markdown", "help", "bash" },
     },
     -- use mason-lspconfig to configure LSP installations
     ["mason-lspconfig"] = { -- overrides `require("mason-lspconfig").setup(...)`
@@ -626,10 +629,10 @@ local config = {
     -- vim.api.nvim_create_autocmd({ "BufWinEnter", "WinEnter" },
     --   { pattern = { "term://*", }, command = "startinsert", desc = "Terminal auto insert" })
 
-    -- auto insert mode when creating terminals, entering from another buffer 
+    -- auto insert mode when creating terminals, entering from another buffer
     -- and when switching to a terminal in a split window
-    vim.api.nvim_create_autocmd({"TermOpen" ,"BufWinEnter", "BufEnter"}, {
-      pattern = {"term://*"},
+    vim.api.nvim_create_autocmd({ "TermOpen", "BufWinEnter", "BufEnter" }, {
+      pattern = { "term://*" },
       command = "normal! i",
     })
 
