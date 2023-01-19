@@ -175,7 +175,7 @@ local config = {
     mappings = {
       n = {
         -- ["<leader>lf"] = false -- disable formatting keymap
-        ["<leader>lk"] = { function() vim.lsp.buf.hover() end, desc = "Hover help" },
+        -- ["<leader>lk"] = { function() vim.lsp.buf.hover() end, desc = "Hover help" },
       },
     },
     -- add to the global LSP on_attach function
