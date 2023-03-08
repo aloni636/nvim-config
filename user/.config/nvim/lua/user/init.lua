@@ -42,7 +42,7 @@ local config = {
   options = {
     opt = {
       -- set to true or false etc.
-      relativenumber = false, -- sets vim.opt.relativenumber
+      relativenumber = true, -- sets vim.opt.relativenumber
       number = true, -- sets vim.opt.number
       -- :me: UI settings; Look at AstroNvim/lua/core/utils/ui.lua
       spell = true, -- sets vim.opt.spell
@@ -234,6 +234,7 @@ local config = {
       ["<leader>bj"] = { "<cmd>BufferLinePick<cr>", desc = "Pick to jump" },
       ["<leader>bt"] = { "<cmd>BufferLineSortByTabs<cr>", desc = "Sort by tabs" },
 
+      ["<leader>q"] = { "<cmd>wall | quitall<cr>", desc = "Save & quit" },
       -- :me: my keybidnings:
       ["<leader>tt"] = false,
       ["<leader>tb"] = {
@@ -285,9 +286,9 @@ local config = {
         function()
           vim.wo.wrap = not vim.wo.wrap
           if vim.wo.wrap then
-            vim.cmd "set wrap linebreak nolist"
+            vim.cmd "set wrap linebreak nolist bri"
           else
-            vim.cmd "set nowrap nolinebreak list"
+            vim.cmd "set nowrap nolinebreak list nobri"
           end
           local bool2str = function(bool) return bool and "on" or "off" end
           astronvim.notify(string.format("wrap %s", bool2str(vim.wo.wrap)))
@@ -295,6 +296,13 @@ local config = {
         desc = "Toggle wrap",
       },
       ["<leader>uI"] = { "<cmd>IndentBlanklineToggle<cr>", desc = "Toggle indent lines" },
+      ["<c-w>p"] = {
+        function()
+          local picked_window_id = require("window-picker").pick_window() or vim.api.nvim_get_current_win()
+          vim.api.nvim_set_current_win(picked_window_id)
+        end,
+        desc = "Pick a window",
+      },
       -- ["<leader>ud"] = {
       --   function()
       --
@@ -308,6 +316,9 @@ local config = {
       ["<C-\\>"] = { "<cmd>ToggleTerm<cr>", desc = "Toggle terminal" },
       -- quick save
       -- ["<C-s>"] = { ":w!<cr>", desc = "Save File" },  -- change description but the same command
+    },
+    i = {
+      ["<C-k>"] = { function() vim.lsp.buf.hover() end, desc = "Hover help" },
     },
     t = {
       -- ["<C-\\>"] = { "<cmd>ToggleTerm<cr>", desc = "Toggle terminal" },
@@ -328,13 +339,17 @@ local config = {
         expr = true,
         desc = "Execute in terminal",
       },
+      ["/"] = {function ()
+        vim.api.nvim_feedkeys("", "x", true)
+        vim.api.nvim_feedkeys("/\\%V", "n", true)
+      end},
     },
   },
 
   -- Configure plugins
   plugins = {
     init = {
-      -- You can disable default plugins as follows:
+          -- You can disable default plugins as follows:
       -- ["goolord/alpha-nvim"] = { disable = true },
 
       -- You can also add new plugins here as well:
@@ -356,6 +371,27 @@ local config = {
       --    end,
       -- },
       --
+      ["windwp/nvim-autopairs"] = { disable = true },
+      -- ["kylechui/nvim-surround"] = { config = function()
+      --   require("nvim-surround").setup {
+      --     keymaps = {
+      --       insert = "<C-s>s",
+      --       insert_line = "<C-s>S",
+      --       normal = "ys",
+      --       normal_cur = "yss",
+      --       normal_line = "yS",
+      --       normal_cur_line = "ySS",
+      --       visual = "S",
+      --       visual_line = "gS",
+      --       delete = "ds",
+      --       change = "cs"
+      --   },
+      --   }
+      -- end,
+      --   },
+      ["pocco81/auto-save.nvim"] = {
+        config = function() require("auto-save").setup {} end,
+      },
       -- :me: smoothhhhhh scrolling!
       ["declancm/cinnamon.nvim"] = {
         config = function()
@@ -387,6 +423,7 @@ local config = {
       -- :me: The great leap yet again!
       ["ggandor/leap.nvim"] = {
         config = function() require("leap").add_default_mappings() end,
+        -- disable = true,
       },
       ["ggandor/leap-spooky.nvim"] = {
         config = function()
@@ -451,7 +488,7 @@ local config = {
           require("tokyonight").setup {
             -- your configuration comes here
             -- or leave it empty to use the default settings
-            style = "storm", -- The theme comes in three styles, `storm`, `moon`, a darker variant `night` and `day`
+            style = "night", -- The theme comes in three styles, `storm`, `moon`, a darker variant `night` and `day`
             light_style = "day", -- The theme is used when the background is set to light
             transparent = false, -- Enable this to disable setting the background color
             terminal_colors = true, -- Configure the colors used when opening a `:terminal` in Neovim
@@ -475,7 +512,7 @@ local config = {
             --- You can override specific color groups to use other groups or a hex color
             --- function will be called with a ColorScheme table
             ---@param colors ColorScheme
-            on_colors = function(colors) end,
+            on_colors = function(colors) colors.border = "#565f89" end,
 
             --- You can override specific highlights to use other groups or a hex color
             --- function will be called with a Highlights and ColorScheme table
@@ -496,15 +533,15 @@ local config = {
     --   end,
     -- },
     -- :me: neo-tree default to float
-    ["neo-tree"] = {
-      window = {
-        position = "float",
-        mappings = {
-          -- ["<esc>"] = "close_window",
-          -- ["q"] = "revert_preview",
-        },
-      },
-    },
+    -- ["neo-tree"] = {
+    --   window = {
+    --     -- position = "float", -- "float" for floating win
+    --     mappings = {
+    --       -- ["<esc>"] = "close_window",
+    --       -- ["q"] = "revert_preview",
+    --     },
+    --   },
+    -- },
     -- :me: added few more hotkeys to telescope
     ["telescope"] = {
       defaults = {
@@ -574,6 +611,7 @@ local config = {
     ["mason-null-ls"] = { -- overrides `require("mason-null-ls").setup(...)`
       -- ensure_installed = { "prettier", "stylua" },
     },
+    ["window-picker"] = { use_winbar = "never", filter_rules = { bo = { buftype = {} } } },
   },
 
   -- LuaSnip Options
@@ -628,12 +666,23 @@ local config = {
     -- :me: update fold when entering buffer
     vim.api.nvim_create_autocmd({ "BufEnter" }, { command = "norm zx", desc = "Restart treesitter folding" })
 
-    vim.api.nvim_create_autocmd({ "TextChanged", "InsertLeave" }, {
-      callback = function()
-        pcall(function() vim.fn.write() end)
-      end,
-      desc = "Autosave",
-    })
+    -- vim.api.nvim_create_autocmd({ "TextChanged", "InsertLeave" }, {
+   keymaps = {
+        insert = "<C-g>s",
+        insert_line = "<C-g>S",
+        normal = "ys",
+        normal_cur = "yss",
+        normal_line = "yS",
+        normal_cur_line = "ySS",
+        visual = "S",
+        visual_line = "gS",
+        delete = "ds",
+        change = "cs"
+    }, --   callback = function(args)
+    --     if not vim.bo[args.buf].readonly and vim.fn.filereadable() then vim.cmd "silent! write" end
+    --   end,
+    --   desc = "Autosave",
+    -- })
 
     -- vim.api.nvim_create_autocmd({ "BufWinEnter", "WinEnter" },
     --   { pattern = { "term://*", }, command = "startinsert", desc = "Terminal auto insert" })
@@ -642,7 +691,12 @@ local config = {
     -- and when switching to a terminal in a split window
     vim.api.nvim_create_autocmd({ "TermOpen", "BufWinEnter", "BufEnter" }, {
       pattern = { "term://*" },
-      command = "normal! i",
+      command = "setlocal! nospell | normal! i",
+    })
+
+    vim.api.nvim_create_autocmd({ "TermLeave", "BufWinLeave", "BufLeave" }, {
+      pattern = { "term://*" },
+      command = "normal! ",
     })
 
     -- vim-visual-multi configs
@@ -668,6 +722,16 @@ local config = {
         ]],
       false
     )
+
+    -- vim.api.nvim_create_user_command("Preview markdown", function()
+    --   local current_filepath = vim.api.nvim_buf_get_name(0)
+    --   local command = 'livedown start ' .. current_filepath .. ' --open --browser "firefox -P livedown"'
+    --   handle = vim.loop.spawn(command, { args = {} }, function() end)
+    -- end)
+
+    -- vim.api.nvim_create_user_command("Shutdown markdown preview", function ()
+    --   handle:close()
+    -- end)
     -- vim.api.cmd "filetype indent off"
     -- vim.cmd "autocmd BufReadPost,FileReadPost * normal zR"
     -- :me: Additional vimscript cmds:
