@@ -491,18 +491,7 @@ local config = {
     vim.api.nvim_create_autocmd({ "BufEnter" }, { command = "norm zx", desc = "Restart treesitter folding" })
 
     -- vim.api.nvim_create_autocmd({ "TextChanged", "InsertLeave" }, {
-   keymaps = {
-        insert = "<C-g>s",
-        insert_line = "<C-g>S",
-        normal = "ys",
-        normal_cur = "yss",
-        normal_line = "yS",
-        normal_cur_line = "ySS",
-        visual = "S",
-        visual_line = "gS",
-        delete = "ds",
-        change = "cs"
-    }, --   callback = function(args)
+    --   callback = function(args)
     --     if not vim.bo[args.buf].readonly and vim.fn.filereadable() then vim.cmd "silent! write" end
     --   end,
     --   desc = "Autosave",

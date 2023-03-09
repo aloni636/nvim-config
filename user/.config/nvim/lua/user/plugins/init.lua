@@ -16,6 +16,7 @@ return {
     config = function()
       require("cinnamon").setup(require( "user.plugins.custom-plugins." .. "cinnamon-config"))
     end,
+    disable=true
   },
   {
     "ggandor/leap.nvim",
