@@ -1,8 +1,9 @@
 return {
+  { "windwp/nvim-autopairs",  disable = true },
   {
     "kylechui/nvim-surround",
     config = function()
-      require("nvim-surround").setup(require( "user.plugins.custom-plugins." .. "nvim-surround-config"))
+      require("nvim-surround").setup(require("user.plugins.custom-plugins." .. "nvim-surround-config"))
     end,
   },
   {
@@ -14,9 +15,9 @@ return {
   {
     "declancm/cinnamon.nvim",
     config = function()
-      require("cinnamon").setup(require( "user.plugins.custom-plugins." .. "cinnamon-config"))
+      require("cinnamon").setup(require("user.plugins.custom-plugins." .. "cinnamon-config"))
     end,
-    disable=true
+    disable = true,
   },
   {
     "ggandor/leap.nvim",
@@ -34,7 +35,7 @@ return {
   {
     "smjonas/live-command.nvim",
     config = function()
-      require("live-command").setup(require( "user.plugins.custom-plugins." .. "live-command-config"))
+      require("live-command").setup(require("user.plugins.custom-plugins." .. "live-command-config"))
     end,
   },
   {
@@ -47,7 +48,7 @@ return {
   {
     "folke/tokyonight.nvim",
     config = function()
-      require("tokyonight").setup(require( "user.plugins.custom-plugins." .. "tokyonight-config"))
+      require("tokyonight").setup(require("user.plugins.custom-plugins." .. "tokyonight-config"))
     end,
   },
   { "mg979/vim-visual-multi", config = {} },
