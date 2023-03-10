@@ -234,7 +234,7 @@ local config = {
       ["<leader>bj"] = { "<cmd>BufferLinePick<cr>", desc = "Pick to jump" },
       ["<leader>bt"] = { "<cmd>BufferLineSortByTabs<cr>", desc = "Sort by tabs" },
 
-      ["<leader>q"] = { "<cmd>wall | quitall<cr>", desc = "Save & quit" },
+      ["<leader>q"] = { "<cmd>silent! wall | quitall<cr>", desc = "Save & quit" },
       -- :me: my keybidnings:
       ["<leader>tt"] = false,
       ["<leader>tb"] = {
@@ -316,6 +316,8 @@ local config = {
       ["<C-\\>"] = { "<cmd>ToggleTerm<cr>", desc = "Toggle terminal" },
       -- quick save
       -- ["<C-s>"] = { ":w!<cr>", desc = "Save File" },  -- change description but the same command
+      [":S"] = {":%s/",
+        desc = "Global substitute" }
     },
     i = {
       ["<C-k>"] = { function() vim.lsp.buf.hover() end, desc = "Hover help" },
@@ -339,10 +341,9 @@ local config = {
         expr = true,
         desc = "Execute in terminal",
       },
-      ["/"] = {function ()
-        vim.api.nvim_feedkeys("", "x", true)
-        vim.api.nvim_feedkeys("/\\%V", "n", true)
-      end},
+      ["/"] = { "<esc>/\\%V"},
+      [":s"] = { ":s/\\%V",
+        desc = "Selection substitute"},
     },
   },
 
