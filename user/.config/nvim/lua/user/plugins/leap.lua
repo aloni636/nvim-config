@@ -7,11 +7,11 @@ return {
 		-- politely taken from tokyo night:
 		-- https://github.com/folke/tokyonight.nvim/blob/main/extras/lua/tokyonight_night.lua#L706
 		vim.api.nvim_set_hl(0, "LeapLabelPrimary", {
-			bold = true,
+			underline = true,
 			fg = "#ff007c",
 		})
 		vim.api.nvim_set_hl(0, "LeapLabelSecondary", {
-			bold = true,
+			underline = true,
 			fg = "#73daca",
 		})
 		vim.api.nvim_set_hl(0, "LeapMatch", {

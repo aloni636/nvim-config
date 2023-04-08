@@ -1,10 +1,15 @@
 return {
 	-- first key is the mode
 	n = {
-		["<leader>q"] = { "<cmd>silent! wall | quitall<cr>", desc = "Save & quit" },
+		["<leader>w"] = { "<cmd>wall! <cr>", desc = "Save all" },
+		["<leader>q"] = { "<cmd>silent! wall | quitall<cr>", desc = "Save all & quit" },
 		["<leader>a"] = {
 			function()
 				require("auto-save").toggle()
+				-- used in user/plugins/heirline.lua
+				vim.g.autosave_enabled = not vim.g.autosave_enabled
+				-- automatically save when toggling autosave
+				vim.cmd("wall!")
 			end,
 			desc = "Toggle autosave",
 		},
@@ -44,7 +49,10 @@ return {
 		-- ctrl-/ for fuzzy search
 		["<C-_>"] = {
 			function()
-				require("telescope.builtin").current_buffer_fuzzy_find({ cache_picker = false })
+				require("telescope.builtin").current_buffer_fuzzy_find({
+					cache_picker = false,
+					skip_empty_lines = true,
+				})
 			end,
 			desc = "Search buffer",
 		},
@@ -92,7 +100,7 @@ return {
 		["<leader>e"] = {
 			function()
 				return vim.api.nvim_get_mode().mode == "V" and "<esc><cmd>'<,'>ToggleTermSendVisualLines<cr>"
-						or "<esc><cmd>'<,'>ToggleTermSendVisualSelection<cr>"
+					or "<esc><cmd>'<,'>ToggleTermSendVisualSelection<cr>"
 			end,
 			expr = true,
 			desc = "Execute in terminal",
