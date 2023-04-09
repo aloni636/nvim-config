@@ -42,14 +42,16 @@ return {
 			command = "normal! ",
 		})
 
-		-- vim.api.nvim_create_user_command("Preview markdown", function()
-		--   local current_filepath = vim.api.nvim_buf_get_name(0)
-		--   local command = 'livedown start ' .. current_filepath .. ' --open --browser "firefox -P livedown"'
-		--   handle = vim.loop.spawn(command, { args = {} }, function() end)
-		-- end)
+		-- vim.api.nvim_create_user_command("MarkdownShow", function()
+		-- 	local current_filepath = vim.api.nvim_buf_get_name(0)
+		-- 	local cmd = "livedown start " .. current_filepath .. ' --open --browser "firefox -P livedown"'
+		-- 	local job_id = vim.fn.jobstart(cmd)
+		-- 	vim.g.markdown_previewer_job_id = job_id
+		-- end, {})
 
-		-- vim.api.nvim_create_user_command("Shutdown markdown preview", function ()
-		--   handle:close()
-		-- end)
+		-- vim.api.nvim_create_user_command("MarkdownShutdown", function()
+		-- 	local job_id = vim.g.markdown_previewer_job_id
+		-- 	vim.fn.jobstop(job_id)
+		-- end, {})
 	end,
 }

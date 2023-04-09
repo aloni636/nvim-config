@@ -15,6 +15,14 @@ return {
 		end,
 		lazy = false,
 	},
+	{
+		-- credits: https://github.com/iamcco/markdown-preview.nvim/pull/562
+		"iamcco/markdown-preview.nvim",
+		ft = "markdown",
+		config = function()
+			vim.fn["mkdp#util#install"]()
+		end,
+	},
 	-- {
 	-- 	"danymat/neogen",
 	-- 	requires = "nvim-treesitter/nvim-treesitter",
