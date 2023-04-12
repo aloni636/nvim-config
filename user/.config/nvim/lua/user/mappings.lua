@@ -56,22 +56,6 @@ local mappings = {
 			end,
 			desc = "Search buffer",
 		},
-		-- word wrap instead of character wrap
-		["<leader>uw"] = {
-			function()
-				vim.wo.wrap = not vim.wo.wrap
-				if vim.wo.wrap then
-					vim.cmd("set wrap linebreak nolist bri")
-				else
-					vim.cmd("set nowrap nolinebreak list nobri")
-				end
-				local bool2str = function(bool)
-					return bool and "on" or "off"
-				end
-				astronvim.notify(string.format("wrap %s", bool2str(vim.wo.wrap)))
-			end,
-			desc = "Toggle wrap",
-		},
 		["<leader>uI"] = { "<cmd>IndentBlanklineToggle<cr>", desc = "Toggle indent lines" },
 		-- convenient toggle terminal
 		["<C-\\>"] = { "<cmd>ToggleTerm<cr>", desc = "Toggle terminal" },
