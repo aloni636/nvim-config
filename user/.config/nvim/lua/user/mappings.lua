@@ -41,6 +41,7 @@ local mappings = {
 			function()
 				require("telescope.builtin").buffers({
 					sort_lastused = true,
+					sort_mru = true,
 					ignore_current_buffer = true,
 					cache_picker = false,
 				})
@@ -98,14 +99,21 @@ local mappings = {
 		["ic"] = { name = "code (treesitter)" },
 		-- for available node groups view completion options, or at:
 		-- https://github.com/nvim-treesitter/nvim-treesitter-textobjects/blob/master/CONTRIBUTING.md
-		["acf"] = { "<cmd>TSTextobjectSelect @function.outer<cr>", desc = "a function" },
-		["icf"] = { "<cmd>TSTextobjectSelect @function.inner<cr>", desc = "inner function" },
-		["acc"] = { "<cmd>TSTextobjectSelect @class.outer<cr>", desc = "a class" },
-		["icc"] = { "<cmd>TSTextobjectSelect @class.inner<cr>", desc = "inner class" },
+		["acf"] = { "<cmd>TSTextobjectSelect @function.outer<cr>", desc = "a function definition" },
+		["icf"] = { "<cmd>TSTextobjectSelect @function.inner<cr>", desc = "inner function definition" },
+		["acc"] = { "<cmd>TSTextobjectSelect @class.outer<cr>", desc = "a class definition" },
+		["icc"] = { "<cmd>TSTextobjectSelect @class.inner<cr>", desc = "inner class definition" },
 		["acp"] = { "<cmd>TSTextobjectSelect @parameter.outer<cr>", desc = "a parameter" },
 		["icp"] = { "<cmd>TSTextobjectSelect @parameter.inner<cr>", desc = "inner parameter" },
-		["acl"] = { "<cmd>TSTextobjectSelect @loop.outer<cr>", desc = "a loop" },
-		["icl"] = { "<cmd>TSTextobjectSelect @loop.inner<cr>", desc = "inner loop" },
+		["aco"] = { "<cmd>TSTextobjectSelect @loop.outer<cr>", desc = "a loop" },
+		["ico"] = { "<cmd>TSTextobjectSelect @loop.inner<cr>", desc = "inner loop" },
+		["acd"] = { "<cmd>TSTextobjectSelect @conditional.outer<cr>", desc = "a conditional block" },
+		["icd"] = { "<cmd>TSTextobjectSelect @conditional.inner<cr>", desc = "inner conditional element" },
+		["acl"] = { "<cmd>TSTextobjectSelect @call.outer<cr>", desc = "a call" },
+		["icl"] = { "<cmd>TSTextobjectSelect @call.inner<cr>", desc = "inner call parameters" },
+		["aca"] = { "<cmd>TSTextobjectSelect @assignment.outer<cr>", desc = "an assignment" },
+		["ica"] = { "<cmd>TSTextobjectSelect @assignment.rhs<cr>", desc = "inner assignment value" },
+		["icA"] = { "<cmd>TSTextobjectSelect @assignment.lhs<cr>", desc = "inner assignment target" },
 	},
 }
 
