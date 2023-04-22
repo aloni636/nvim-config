@@ -9,7 +9,8 @@ local mappings = {
 				-- used in user/plugins/heirline.lua
 				vim.g.autosave_enabled = not vim.g.autosave_enabled
 				-- automatically save when toggling autosave
-				vim.cmd("wall!")
+				-- run from cmdline to get native vim cmdline error messages
+				vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<cmd>wall!<cr>", true, true, true), "m", false)
 			end,
 			desc = "Toggle autosave",
 		},
@@ -85,7 +86,7 @@ local mappings = {
 		["<leader>e"] = {
 			function()
 				return vim.api.nvim_get_mode().mode == "V" and "<esc><cmd>'<,'>ToggleTermSendVisualLines<cr>"
-					or "<esc><cmd>'<,'>ToggleTermSendVisualSelection<cr>"
+						or "<esc><cmd>'<,'>ToggleTermSendVisualSelection<cr>"
 			end,
 			expr = true,
 			desc = "Execute in terminal",

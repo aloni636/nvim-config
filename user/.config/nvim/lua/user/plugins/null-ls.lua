@@ -10,7 +10,7 @@ return {
 		local null_ls = require("null-ls")
 		config.sources = {
 			null_ls.builtins.formatting.stylua,
-			null_ls.builtins.diagnostics.pylint,
+			-- null_ls.builtins.diagnostics.pylint,
 			-- use custom defaults defined in linter-config dir
 			null_ls.builtins.diagnostics.selene.with({
 				-- Check if :pwd contains selene.toml file
