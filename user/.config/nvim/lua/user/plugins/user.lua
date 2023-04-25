@@ -23,6 +23,13 @@ return {
 			vim.fn["mkdp#util#install"]()
 		end,
 	},
+	{
+		"ray-x/lsp_signature.nvim",
+		config = function()
+			require("lsp_signature").setup({ hint_enable = false })
+		end,
+		event = "LspAttach",
+	},
 	-- {
 	-- 	"danymat/neogen",
 	-- 	requires = "nvim-treesitter/nvim-treesitter",
