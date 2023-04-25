@@ -9,5 +9,7 @@ return {
 		linebreak = true,
 		breakindent = true,
 	},
-	g = {},
+	g = {
+		autoformat_enabled = false,
+	},
 }
