@@ -17,7 +17,7 @@ return {
 		},
 	},
 	-- Set colorscheme to use
-	colorscheme = "astrodark",
+	colorscheme = "tokyonight-night",
 	cmp = {
 		source_priority = {
 			nvim_lsp = 1000,

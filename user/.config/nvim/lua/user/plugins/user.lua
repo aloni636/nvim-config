@@ -30,6 +30,17 @@ return {
 		end,
 		event = "LspAttach",
 	},
+	{
+		"folke/tokyonight.nvim",
+		config = function()
+			require("tokyonight").setup({
+				dim_inactive = true,
+				on_colors = function(colors)
+					colors.border = "#565f89"
+				end,
+			})
+		end,
+	},
 	-- {
 	-- 	"danymat/neogen",
 	-- 	requires = "nvim-treesitter/nvim-treesitter",
