@@ -8,6 +8,7 @@ return {
 		-- word wrap instead of character wrap
 		linebreak = true,
 		breakindent = true,
+		expandtab = true,
 	},
 	g = {
 		autoformat_enabled = false,

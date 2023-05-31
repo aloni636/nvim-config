@@ -17,7 +17,7 @@ return {
 		},
 	},
 	-- Set colorscheme to use
-	colorscheme = "tokyonight-night",
+	colorscheme = "tokyonight-night",  -- tokyonight-night, or the default "astrodark" 
 	cmp = {
 		source_priority = {
 			nvim_lsp = 1000,
@@ -41,7 +41,6 @@ return {
 			pattern = { "term://*" },
 			command = "normal! ",
 		})
-
 		-- vim.api.nvim_create_user_command("MarkdownShow", function()
 		-- 	local current_filepath = vim.api.nvim_buf_get_name(0)
 		-- 	local cmd = "livedown start " .. current_filepath .. ' --open --browser "firefox -P livedown"'

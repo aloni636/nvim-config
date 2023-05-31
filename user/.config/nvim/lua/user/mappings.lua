@@ -14,6 +14,9 @@ local mappings = {
 			end,
 			desc = "Toggle autosave",
 		},
+		-- leave leader-e to telescope-file-browser
+		-- ["<leader>e"] = { "<cmd>Telescope file_browser<cr>", desc = "Toggle Explorer" },
+		["<C-i>"] = false,
 		-- leave ctrl-s to nvim-surround
 		["<C-s>"] = false,
 		-- ["<leader>tb"] = {
@@ -30,7 +33,12 @@ local mappings = {
 			desc = "Search man pages",
 		},
 		["<leader>fO"] = { require("telescope.builtin").vim_options, desc = "Find vim options" },
-		["<leader>fp"] = { require("telescope.builtin").builtin, desc = "Find pickers" },
+		["<leader>fp"] = {
+			function()
+				require("telescope.builtin").builtin({ include_extensions = true })
+			end,
+			desc = "Find pickers",
+		},
 		-- telescope spell suggest
 		["z="] = {
 			function()
@@ -38,7 +46,8 @@ local mappings = {
 			end,
 		},
 		-- tab buffer switcher
-		["<Tab>"] = {
+		-- not <Tab>, as <Tab> == <Ctrl-i> for terminals (god knows why)
+		["<S-Tab>"] = {
 			function()
 				require("telescope.builtin").buffers({
 					sort_lastused = true,
@@ -56,7 +65,13 @@ local mappings = {
 					skip_empty_lines = true,
 				})
 			end,
-			desc = "Search buffer",
+			desc = "Find buffer content",
+		},
+		["<leader>um"] = {
+			function()
+				require("mini.map").toggle()
+			end,
+			desc = "Toggle minimap",
 		},
 		["<leader>uI"] = { "<cmd>IndentBlanklineToggle<cr>", desc = "Toggle indent lines" },
 		-- convenient toggle terminal
@@ -68,20 +83,19 @@ local mappings = {
 		["<C-\\>"] = { "<C-\\><C-n>", desc = "Terminal normal mode" },
 	},
 	i = {
-		["<C-k>"] = {
-			function()
-				vim.lsp.buf.hover()
-			end,
-			desc = "Hover help",
-		},
-		["<C-j>"] = {
-			function()
-				vim.lsp.buf.signature_help()
-			end,
-			desc = "Signature help",
-		},
+		["<C-j>"] = {"<Down>"},
+		["<C-k>"] = {"<Up>"},
+		["<C-l>"] = {"<Right>"},
+		["<C-h>"] = {"<Left>"},
+		["<C-Right>"] = { "<esc>lwi" },
+		["<C-Left>"] = { "<esc>gea" },
 	},
 	v = {
+		["<S-j>"] = { "<esc><cmd>'<,'>m '>+1<cr>gv", desc = "Move line down" },
+		["<S-k>"] = { "<esc><cmd>'<,'>m '<-2<cr>gv", desc = "Move line up" },
+		["<C-j>"] = { "<esc><cmd>'<,'>t '><cr>`[V`]", desc = "Copy line down" },
+		["<C-k>"] = { "<esc><cmd>'<,'>t '<-1<cr>`[V`]o", desc = "Copy line up" },
+
 		-- visual selection send to terminal
 		["<leader>e"] = {
 			function()
@@ -96,29 +110,36 @@ local mappings = {
 		[":S"] = { ":s/\\%V/&/g<left><left><left><left>", desc = "Selection substitute" },
 	},
 	o = {
-		["ac"] = { name = "code (treesitter)" },
-		["ic"] = { name = "code (treesitter)" },
+		-- ["ac"] = { name = "code (treesitter)" },
+		-- ["ic"] = { name = "code (treesitter)" },
 		-- for available node groups view completion options, or at:
 		-- https://github.com/nvim-treesitter/nvim-treesitter-textobjects/blob/master/CONTRIBUTING.md
-		["acf"] = { "<cmd>TSTextobjectSelect @function.outer<cr>", desc = "a function definition" },
-		["icf"] = { "<cmd>TSTextobjectSelect @function.inner<cr>", desc = "inner function definition" },
-		["acc"] = { "<cmd>TSTextobjectSelect @class.outer<cr>", desc = "a class definition" },
-		["icc"] = { "<cmd>TSTextobjectSelect @class.inner<cr>", desc = "inner class definition" },
-		["acp"] = { "<cmd>TSTextobjectSelect @parameter.outer<cr>", desc = "a parameter" },
-		["icp"] = { "<cmd>TSTextobjectSelect @parameter.inner<cr>", desc = "inner parameter" },
-		["aco"] = { "<cmd>TSTextobjectSelect @loop.outer<cr>", desc = "a loop" },
-		["ico"] = { "<cmd>TSTextobjectSelect @loop.inner<cr>", desc = "inner loop" },
-		["acd"] = { "<cmd>TSTextobjectSelect @conditional.outer<cr>", desc = "a conditional block" },
-		["icd"] = { "<cmd>TSTextobjectSelect @conditional.inner<cr>", desc = "inner conditional element" },
-		["acl"] = { "<cmd>TSTextobjectSelect @call.outer<cr>", desc = "a call" },
-		["icl"] = { "<cmd>TSTextobjectSelect @call.inner<cr>", desc = "inner call parameters" },
-		["aca"] = { "<cmd>TSTextobjectSelect @assignment.outer<cr>", desc = "an assignment" },
-		["ica"] = { "<cmd>TSTextobjectSelect @assignment.rhs<cr>", desc = "inner assignment value" },
-		["icA"] = { "<cmd>TSTextobjectSelect @assignment.lhs<cr>", desc = "inner assignment target" },
+		["af"] = { "<cmd>TSTextobjectSelect @function.outer<cr>", desc = "a TS function" },
+		["if"] = { "<cmd>TSTextobjectSelect @function.inner<cr>", desc = "inner TS function" },
+		["ac"] = { "<cmd>TSTextobjectSelect @class.outer<cr>", desc = "a TS class" },
+		["ic"] = { "<cmd>TSTextobjectSelect @class.inner<cr>", desc = "inner TS class" },
+		["ap"] = { "<cmd>TSTextobjectSelect @call.inner<cr>", desc = "around TS parameters" },
+		["ip"] = { "<cmd>TSTextobjectSelect @parameter.inner<cr>", desc = "inner TS parameter" },
+		["al"] = { "<cmd>TSTextobjectSelect @loop.outer<cr>", desc = "a TS loop" },
+		["il"] = { "<cmd>TSTextobjectSelect @loop.inner<cr>", desc = "inner TS loop" },
+		["an"] = { "<cmd>TSTextobjectSelect @conditional.outer<cr>", desc = "a TS conditional" },
+		["in"] = { "<cmd>TSTextobjectSelect @conditional.inner<cr>", desc = "inner TS conditional" },
+		-- ["al"] = { "<cmd>TSTextobjectSelect @call.outer<cr>", desc = "a TS call" },
+		-- ["il"] = { "<cmd>TSTextobjectSelect @call.inner<cr>", desc = "inner TS call parameters" },
+		["aa"] = { "<cmd>TSTextobjectSelect @assignment.outer<cr>", desc = "a TS assignment" },
+		["ia"] = { "<cmd>TSTextobjectSelect @assignment.rhs<cr>", desc = "inner TS assignment" },
+		["iA"] = { "<cmd>TSTextobjectSelect @assignment.lhs<cr>", desc = "inner TS assignee" },
 	},
 }
 
 -- automatically add all operator-pending keymaps to visual mode
 mappings.x = mappings.o
+mappings.n["<C-/>"] = mappings.n["<C-_>"]
+
+-- automatically inherit custom arrows based likewise ops
+mappings.v["<S-Down>"] = mappings.v["<S-j>"]
+mappings.v["<S-Up>"] = mappings.v["<S-k>"]
+mappings.v["<C-Down>"] = mappings.v["<C-j>"]
+mappings.v["<C-Up>"] = mappings.v["<C-k>"]
 
 return mappings
