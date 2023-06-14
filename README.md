@@ -2,3 +2,8 @@
 
 A fine place to store my nvim configurations.
 
+## Note
+
+You may find the history of this repo a little weird. \
+That's because it was detached (at commit `dfe7abb85e1c1e5f8a5b57a60134c4a14c4a82f0`) from my dotfiles repo.
+
