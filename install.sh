@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 # stow only have --adopt flag for overwriting files, but its OUR files, not system files
 # therefore, we use git to keep track of any changes made to OUR files and revert them
 
