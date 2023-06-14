@@ -6,7 +6,7 @@ git add --all && git commit -m temp
 STORED_TEMP=$?
 
 # relink stow directories
-stow -R -d user -t $HOME --adopt
+stow -R -d home -t $HOME --adopt
 
 # revert changes made by --adopt flag
 git reset --hard
