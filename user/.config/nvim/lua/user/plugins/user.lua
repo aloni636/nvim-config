@@ -34,6 +34,8 @@ return {
 		"folke/tokyonight.nvim",
 		config = function()
 			require("tokyonight").setup({
+				style = "night",
+				transparent = false,
 				dim_inactive = true,
 				on_colors = function(colors)
 					-- set window border color

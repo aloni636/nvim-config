@@ -41,6 +41,9 @@ return {
 			pattern = { "term://*" },
 			command = "normal! ",
 		})
+		-- force vim to not map <Tab> to <c-i>
+		-- credits: https://www.reddit.com/r/neovim/comments/vguomm/how_can_i_map_tab_but_keep_the_default_action_for/
+		vim.cmd("nnoremap <c-i> <c-i>")
 		-- vim.api.nvim_create_user_command("MarkdownShow", function()
 		-- 	local current_filepath = vim.api.nvim_buf_get_name(0)
 		-- 	local cmd = "livedown start " .. current_filepath .. ' --open --browser "firefox -P livedown"'

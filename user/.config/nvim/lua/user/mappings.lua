@@ -47,13 +47,14 @@ local mappings = {
 		},
 		-- tab buffer switcher
 		-- not <Tab>, as <Tab> == <Ctrl-i> for terminals (god knows why)
-		["<S-Tab>"] = {
+		["<Tab>"] = {
 			function()
 				require("telescope.builtin").buffers({
 					sort_lastused = true,
 					sort_mru = true,
 					ignore_current_buffer = true,
 					cache_picker = false,
+					-- initial_mode = "normal"
 				})
 			end,
 		},
@@ -61,11 +62,11 @@ local mappings = {
 		["<C-_>"] = {
 			function()
 				require("telescope.builtin").current_buffer_fuzzy_find({
-					cache_picker = false,
+					-- cache_picker = false,
 					skip_empty_lines = true,
 				})
 			end,
-			desc = "Find buffer content",
+			desc = "Find in buffer",
 		},
 		["<leader>um"] = {
 			function()
@@ -83,19 +84,24 @@ local mappings = {
 		["<C-\\>"] = { "<C-\\><C-n>", desc = "Terminal normal mode" },
 	},
 	i = {
+		-- basic cursor movement in insert mode
 		["<C-j>"] = {"<Down>"},
 		["<C-k>"] = {"<Up>"},
 		["<C-l>"] = {"<Right>"},
 		["<C-h>"] = {"<Left>"},
-		["<C-Right>"] = { "<esc>lwi" },
-		["<C-Left>"] = { "<esc>gea" },
+		-- ["<C-Right>"] = { "<esc>lwi" },
+		-- ["<C-Left>"] = { "<esc>gea" },
+		-- ctrl arrow jump to word boundaries
+		["<C-Right>"] = {function() vim.fn.search([[\<\|\>]]) end},
+		["<C-Left>"] = {function() vim.fn.search([[\<\|\>]], "b") end},
 	},
 	v = {
 		["<S-j>"] = { "<esc><cmd>'<,'>m '>+1<cr>gv", desc = "Move line down" },
 		["<S-k>"] = { "<esc><cmd>'<,'>m '<-2<cr>gv", desc = "Move line up" },
 		["<C-j>"] = { "<esc><cmd>'<,'>t '><cr>`[V`]", desc = "Copy line down" },
 		["<C-k>"] = { "<esc><cmd>'<,'>t '<-1<cr>`[V`]o", desc = "Copy line up" },
-
+		-- force cursor to stay at the same position after visual yank
+		["y"] = {"ygv<esc>"},
 		-- visual selection send to terminal
 		["<leader>e"] = {
 			function()
@@ -118,23 +124,23 @@ local mappings = {
 		["if"] = { "<cmd>TSTextobjectSelect @function.inner<cr>", desc = "inner TS function" },
 		["ac"] = { "<cmd>TSTextobjectSelect @class.outer<cr>", desc = "a TS class" },
 		["ic"] = { "<cmd>TSTextobjectSelect @class.inner<cr>", desc = "inner TS class" },
-		["ap"] = { "<cmd>TSTextobjectSelect @call.inner<cr>", desc = "around TS parameters" },
-		["ip"] = { "<cmd>TSTextobjectSelect @parameter.inner<cr>", desc = "inner TS parameter" },
+		["aa"] = { "<cmd>TSTextobjectSelect @parameter.outer<cr>", desc = "around TS argument" },
+		["ia"] = { "<cmd>TSTextobjectSelect @parameter.inner<cr>", desc = "inner TS argument" },
 		["al"] = { "<cmd>TSTextobjectSelect @loop.outer<cr>", desc = "a TS loop" },
 		["il"] = { "<cmd>TSTextobjectSelect @loop.inner<cr>", desc = "inner TS loop" },
 		["an"] = { "<cmd>TSTextobjectSelect @conditional.outer<cr>", desc = "a TS conditional" },
 		["in"] = { "<cmd>TSTextobjectSelect @conditional.inner<cr>", desc = "inner TS conditional" },
 		-- ["al"] = { "<cmd>TSTextobjectSelect @call.outer<cr>", desc = "a TS call" },
 		-- ["il"] = { "<cmd>TSTextobjectSelect @call.inner<cr>", desc = "inner TS call parameters" },
-		["aa"] = { "<cmd>TSTextobjectSelect @assignment.outer<cr>", desc = "a TS assignment" },
-		["ia"] = { "<cmd>TSTextobjectSelect @assignment.rhs<cr>", desc = "inner TS assignment" },
-		["iA"] = { "<cmd>TSTextobjectSelect @assignment.lhs<cr>", desc = "inner TS assignee" },
 	},
 }
 
 -- automatically add all operator-pending keymaps to visual mode
 mappings.x = mappings.o
+
+-- terminals confuse <C-_> with <C-/>, kitty does not
 mappings.n["<C-/>"] = mappings.n["<C-_>"]
+mappings.n["<leader>fb"] = mappings.n["<C-_>"]
 
 -- automatically inherit custom arrows based likewise ops
 mappings.v["<S-Down>"] = mappings.v["<S-j>"]

@@ -2,6 +2,19 @@ return {
 	{
 		"nvim-telescope/telescope.nvim",
 		opts = {
+			pickers = {
+				buffers = {
+					mappings = {
+						n = {
+							["<A-d>"] = require('telescope.actions').delete_buffer
+						},
+						i = {
+							["<A-d>"] = require('telescope.actions').delete_buffer
+						}
+					}
+
+				}
+			},
 			defaults = {
 				mappings = {
 					i = {
@@ -20,6 +33,8 @@ return {
 					},
 				},
 				-- cycle from vertical with preview to one (that probably) without (i.e preview_cutoff = 120)
+				-- layout_strategy = "vertical",
+				-- layout_config = {  ["vertical"] = {prompt_position = "top", mirror = true}},
 				cycle_layout_list = {
 					{
 						layout_strategy = "vertical",
@@ -30,6 +45,7 @@ return {
 						layout_config = { prompt_position = "top", mirror = true },
 					},
 					"horizontal",
+					-- "vertical"
 				},
 				-- print the entire file path when searching for files
 				-- TODO: somehow make it available only in vertical layout
