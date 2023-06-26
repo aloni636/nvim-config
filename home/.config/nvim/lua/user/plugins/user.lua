@@ -31,6 +31,11 @@ return {
 		event = "User AstroFile",
 	},
 	{
+		"bluz71/vim-moonfly-colors",
+		name = "moonfly",
+		lazy = false,
+	},
+	{
 		"folke/tokyonight.nvim",
 		config = function()
 			require("tokyonight").setup({
@@ -89,7 +94,7 @@ return {
 					show_integration_count = false,
 				},
 			})
-			map.open()
+			-- map.open()
 		end,
 		event = "User AstroFile",
 	},

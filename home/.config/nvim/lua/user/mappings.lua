@@ -14,6 +14,8 @@ local mappings = {
 			end,
 			desc = "Toggle autosave",
 		},
+		-- more logical redo
+		["U"] = {"<C-r>"},
 		-- leave leader-e to telescope-file-browser
 		-- ["<leader>e"] = { "<cmd>Telescope file_browser<cr>", desc = "Toggle Explorer" },
 		["<C-i>"] = false,
