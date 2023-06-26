@@ -100,6 +100,13 @@ return {
 		end,
 		event = "User AstroFile",
 	},
+	{
+		"akinsho/toggleterm.nvim",
+		opts = {
+			-- auto insert mode when entering toggleterm terminals
+			on_open = function(_) vim.cmd("startinsert") end
+		}
+	}
 	-- {
 	-- 	"danymat/neogen",
 	-- 	requires = "nvim-treesitter/nvim-treesitter",

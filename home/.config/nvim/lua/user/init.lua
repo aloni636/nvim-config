@@ -32,15 +32,15 @@ return {
 	polish = function()
 		-- auto insert mode when creating terminals, entering from another buffer
 		-- and when switching to a terminal in a split window
-		vim.api.nvim_create_autocmd({ "TermOpen", "BufWinEnter", "BufEnter" }, {
-			pattern = { "term://*" },
-			command = "setlocal! nospell | normal! i",
-		})
-
-		vim.api.nvim_create_autocmd({ "TermLeave", "BufWinLeave", "BufLeave" }, {
-			pattern = { "term://*" },
-			command = "normal! ",
-		})
+		-- vim.api.nvim_create_autocmd({ "TermOpen", "BufWinEnter", "BufEnter" }, {
+		-- 	pattern = { "term://*" },
+		-- 	command = "setlocal! nospell | normal! i",
+		-- })
+		--
+		-- vim.api.nvim_create_autocmd({ "TermLeave", "BufWinLeave", "BufLeave" }, {
+		-- 	pattern = { "term://*" },
+		-- 	command = "stopinsert",
+		-- })
 		-- force vim to not map <Tab> to <c-i>
 		-- credits: https://www.reddit.com/r/neovim/comments/vguomm/how_can_i_map_tab_but_keep_the_default_action_for/
 		vim.cmd("nnoremap <c-i> <c-i>")
