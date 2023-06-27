@@ -9,8 +9,7 @@ return {
 		local components = {
 			-- dont display it if buffer is readonly
 			condition = function()
-				local buf = vim.api.nvim_win_get_buf(0)
-				return not vim.bo[buf].readonly
+				return vim.bo[0].modifiable or vim.bo[0].readonly
 			end,
 			-- when user toggles autosave via the mapping, vim.g.autosave_enabled updates
 			-- and consequently the component updates
