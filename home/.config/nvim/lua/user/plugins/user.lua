@@ -30,6 +30,12 @@ return {
 		end,
 		event = "User AstroFile",
 	},
+	--themes
+	{
+		'rose-pine/neovim',
+		name = 'rose-pine',
+		lazy = false
+	},
 	{
 		"bluz71/vim-moonfly-colors",
 		name = "moonfly",
