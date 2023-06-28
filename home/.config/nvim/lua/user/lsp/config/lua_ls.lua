@@ -24,26 +24,24 @@ return {
       },
       diagnostics = {
         enable = true,
-        globals = { "vim", "require", "astronvim" },
+        -- globals = { "vim", "require", "astronvim" },
       },
       workspace = {
         -- Make the server aware of Neovim runtime files
         library = {
-          unpack(vim.api.nvim_get_runtime_file("", true)),
-          -- vim.fn.expand'./lua_modules/share/lua/5.1',
-          -- "lua_modules/share/lua/5.1"
-          -- unpack(vim.fs.find(function(name, path)
-          --   return name:match(".+%.lua$") and path:match("lua_modules/share")
-          -- end, { path = vim.fn.getcwd(), limit = math.huge })),
-          -- unpack(vim.fs.find(function(name, path)
-          --   return name:match(".+%.lua$") and path:match("lua_modules")
-          -- end, { path = vim.fn.getcwd(), limit = math.huge })),
+          -- read this to configure detection of local lua_modules
+          -- https://github.com/LuaLS/lua-language-server/wiki/Libraries#link-to-workspace
+          -- tldr: use workspace.library in .luarc.json project-wide file
         },
+        -- https://github.com/LuaLS/lua-language-server/wiki/Settings
+        checkThirdParty = false,
+        maxPreload = 5000,
+        preloadFileSize = 10000,
       },
       -- Do not send telemetry data containing a randomized but unique identifier
-      telemetry = {
-        enable = false,
-      },
+      -- telemetry = {
+      --   enable = false,
+      -- },
     },
   },
 }
