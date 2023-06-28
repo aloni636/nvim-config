@@ -1,152 +1,153 @@
 local mappings = {
-	-- first key is the mode
-	n = {
-		["<leader>w"] = { "<cmd>wall! <cr>", desc = "Save all" },
-		["<leader>q"] = { "<cmd>silent! wall | quitall<cr>", desc = "Save all & quit" },
-		["<leader>a"] = {
-			function()
-				require("auto-save").toggle()
-				-- used in user/plugins/heirline.lua
-				vim.g.autosave_enabled = not vim.g.autosave_enabled
-				-- automatically save when toggling autosave
-				-- run from cmdline to get native vim cmdline error messages
-				vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<cmd>wall!<cr>", true, true, true), "m", false)
-			end,
-			desc = "Toggle autosave",
-		},
-		-- resize windows with <c-hjkl>
-		["<C-k>"] = { function() require("smart-splits").resize_up() end, desc = "Resize split up" },
-		["<C-j>"] = { function() require("smart-splits").resize_down() end, desc = "Resize split down" },
-		["<C-h>"] = { function() require("smart-splits").resize_left() end, desc = "Resize split left" },
-		["<C-l>"] = { function() require("smart-splits").resize_right() end, desc = "Resize split right" },
-		-- more logical redo
-		["U"] = {"<C-r>"},
-		-- leave leader-e to telescope-file-browser
-		-- ["<leader>e"] = { "<cmd>Telescope file_browser<cr>", desc = "Toggle Explorer" },
-		["<C-i>"] = false,
-		-- leave ctrl-s to nvim-surround
-		["<C-s>"] = false,
-		-- ["<leader>tb"] = {
-		-- 	function()
-		-- 		require("astronvim.utils").toggle_term_cmd("btop --utf-force")
-		-- 	end,
-		-- 	desc = "ToggleTerm btop",
-		-- },
-		-- search for all man pages, not just (1)
-		["<leader>fm"] = {
-			function()
-				require("telescope.builtin").man_pages({ sections = { "ALL" } })
-			end,
-			desc = "Search man pages",
-		},
-		["<leader>fO"] = { require("telescope.builtin").vim_options, desc = "Find vim options" },
-		["<leader>fp"] = {
-			function()
-				require("telescope.builtin").builtin({ include_extensions = true })
-			end,
-			desc = "Find pickers",
-		},
-		-- telescope spell suggest
-		["z="] = {
-			function()
-				require("telescope.builtin").spell_suggest(require("telescope.themes").get_cursor({}))
-			end,
-		},
-		-- tab buffer switcher
-		-- not <Tab>, as <Tab> == <Ctrl-i> for terminals (god knows why)
-		["<Tab>"] = {
-			function()
-				require("telescope.builtin").buffers({
-					sort_lastused = true,
-					sort_mru = true,
-					ignore_current_buffer = true,
-					cache_picker = false,
-					-- initial_mode = "normal"
-				})
-			end,
-		},
-		-- ctrl-/ for fuzzy search
-		["<C-_>"] = {
-			function()
-				require("telescope.builtin").current_buffer_fuzzy_find({
-					-- cache_picker = false,
-					skip_empty_lines = true,
-				})
-			end,
-			desc = "Find in buffer",
-		},
-		["<leader>um"] = {
-			function()
-				require("mini.map").toggle()
-			end,
-			desc = "Toggle minimap",
-		},
-		["<leader>uI"] = { "<cmd>IndentBlanklineToggle<cr>", desc = "Toggle indent lines" },
-		-- convenient toggle terminal
-		["<C-\\>"] = { "<cmd>ToggleTerm<cr>", desc = "Toggle terminal" },
-		-- better substitute
-		[":S"] = { ":%s//&/g<left><left><left><left>", desc = "Global substitute" },
-	},
-	t = {
-		["<C-\\>"] = { "<C-\\><C-n>", desc = "Terminal normal mode" },
-	},
-	c = {
-		-- basic cursor movement in insert mode
-		["<C-j>"] = { "<Down>" },
-		["<C-k>"] = { "<Up>" },
-		["<C-l>"] = { "<Right>" },
-		["<C-h>"] = { "<Left>" },
-	},
-	i = {
-		-- basic cursor movement in insert mode
-		["<C-j>"] = {"<Down>"},
-		["<C-k>"] = {"<Up>"},
-		["<C-l>"] = {"<Right>"},
-		["<C-h>"] = {"<Left>"},
-		-- ["<C-Right>"] = { "<esc>lwi" },
-		-- ["<C-Left>"] = { "<esc>gea" },
-		-- ctrl arrow jump to word boundaries
-		["<C-Right>"] = {function() vim.fn.search([[\<\|\>]]) end},
-		["<C-Left>"] = {function() vim.fn.search([[\<\|\>]], "b") end},
-	},
-	v = {
-		["<S-j>"] = { "<esc><cmd>'<,'>m '>+1<cr>gv", desc = "Move line down" },
-		["<S-k>"] = { "<esc><cmd>'<,'>m '<-2<cr>gv", desc = "Move line up" },
-		["<C-j>"] = { "<esc><cmd>'<,'>t '><cr>`[V`]", desc = "Copy line down" },
-		["<C-k>"] = { "<esc><cmd>'<,'>t '<-1<cr>`[V`]o", desc = "Copy line up" },
-		-- force cursor to stay at the same position after visual yank
-		["y"] = {"ygv<esc>"},
-		-- visual selection send to terminal
-		["<leader>e"] = {
-			function()
-				return vim.api.nvim_get_mode().mode == "V" and "<esc><cmd>'<,'>ToggleTermSendVisualLines<cr>"
-						or "<esc><cmd>'<,'>ToggleTermSendVisualSelection<cr>"
-			end,
-			expr = true,
-			desc = "Execute in terminal",
-		},
-		["/"] = { "<esc>/\\%V" },
-		-- better substitute
-		[":S"] = { ":s/\\%V/&/g<left><left><left><left>", desc = "Selection substitute" },
-	},
-	o = {
-		-- ["ac"] = { name = "code (treesitter)" },
-		-- ["ic"] = { name = "code (treesitter)" },
-		-- for available node groups view completion options, or at:
-		-- https://github.com/nvim-treesitter/nvim-treesitter-textobjects/blob/master/CONTRIBUTING.md
-		["af"] = { "<cmd>TSTextobjectSelect @function.outer<cr>", desc = "a TS function" },
-		["if"] = { "<cmd>TSTextobjectSelect @function.inner<cr>", desc = "inner TS function" },
-		["ac"] = { "<cmd>TSTextobjectSelect @class.outer<cr>", desc = "a TS class" },
-		["ic"] = { "<cmd>TSTextobjectSelect @class.inner<cr>", desc = "inner TS class" },
-		["aa"] = { "<cmd>TSTextobjectSelect @parameter.outer<cr>", desc = "around TS argument" },
-		["ia"] = { "<cmd>TSTextobjectSelect @parameter.inner<cr>", desc = "inner TS argument" },
-		["al"] = { "<cmd>TSTextobjectSelect @loop.outer<cr>", desc = "a TS loop" },
-		["il"] = { "<cmd>TSTextobjectSelect @loop.inner<cr>", desc = "inner TS loop" },
-		["an"] = { "<cmd>TSTextobjectSelect @conditional.outer<cr>", desc = "a TS conditional" },
-		["in"] = { "<cmd>TSTextobjectSelect @conditional.inner<cr>", desc = "inner TS conditional" },
-		-- ["al"] = { "<cmd>TSTextobjectSelect @call.outer<cr>", desc = "a TS call" },
-		-- ["il"] = { "<cmd>TSTextobjectSelect @call.inner<cr>", desc = "inner TS call parameters" },
-	},
+  -- first key is the mode
+  n = {
+    -- editor-wide file saving operations
+    ["<leader>w"] = { "<cmd>wall! <cr>", desc = "Save all" },
+    ["<leader>q"] = { "<cmd>silent! wall | quitall<cr>", desc = "Save all & quit" },
+    ["<leader>a"] = {
+      function()
+        require("auto-save").toggle()
+        -- used in user/plugins/heirline.lua
+        vim.g.autosave_enabled = not vim.g.autosave_enabled
+        -- automatically save when toggling autosave
+        -- run from cmdline to get native vim cmdline error messages
+        vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<cmd>wall!<cr>", true, true, true), "m", false)
+      end,
+      desc = "Toggle autosave",
+    },
+    -- resize windows with <c-hjkl>
+    ["<C-k>"] = { function() require("smart-splits").resize_up() end, desc = "Resize split up" },
+    ["<C-j>"] = { function() require("smart-splits").resize_down() end, desc = "Resize split down" },
+    ["<C-h>"] = { function() require("smart-splits").resize_left() end, desc = "Resize split left" },
+    ["<C-l>"] = { function() require("smart-splits").resize_right() end, desc = "Resize split right" },
+    -- more logical redo
+    ["U"] = { "<C-r>" },
+    -- leave leader-e to telescope-file-browser
+    -- ["<leader>e"] = { "<cmd>Telescope file_browser<cr>", desc = "Toggle Explorer" },
+    ["<C-i>"] = false,
+    -- leave ctrl-s to nvim-surround
+    ["<C-s>"] = false,
+    -- ["<leader>tb"] = {
+    --  function()
+    --    require("astronvim.utils").toggle_term_cmd("btop --utf-force")
+    --  end,
+    --  desc = "ToggleTerm btop",
+    -- },
+    -- search for all man pages, not just (1)
+    ["<leader>fm"] = {
+      function()
+        require("telescope.builtin").man_pages({ sections = { "ALL" } })
+      end,
+      desc = "Search man pages",
+    },
+    ["<leader>fO"] = { require("telescope.builtin").vim_options, desc = "Find vim options" },
+    ["<leader>fp"] = {
+      function()
+        require("telescope.builtin").builtin({ include_extensions = true })
+      end,
+      desc = "Find pickers",
+    },
+    -- telescope spell suggest
+    ["z="] = {
+      function()
+        require("telescope.builtin").spell_suggest(require("telescope.themes").get_cursor({}))
+      end,
+    },
+    -- tab buffer switcher
+    -- not <Tab>, as <Tab> == <Ctrl-i> for terminals (god knows why)
+    ["<Tab>"] = {
+      function()
+        require("telescope.builtin").buffers({
+          sort_lastused = true,
+          sort_mru = true,
+          ignore_current_buffer = true,
+          cache_picker = false,
+          -- initial_mode = "normal"
+        })
+      end,
+    },
+    -- ctrl-/ for fuzzy search
+    ["<C-_>"] = {
+      function()
+        require("telescope.builtin").current_buffer_fuzzy_find({
+          -- cache_picker = false,
+          skip_empty_lines = true,
+        })
+      end,
+      desc = "Find in buffer",
+    },
+    ["<leader>um"] = {
+      function()
+        require("mini.map").toggle()
+      end,
+      desc = "Toggle minimap",
+    },
+    ["<leader>uI"] = { "<cmd>IndentBlanklineToggle<cr>", desc = "Toggle indent lines" },
+    -- convenient toggle terminal
+    ["<C-\\>"] = { "<cmd>ToggleTerm<cr>", desc = "Toggle terminal" },
+    -- better substitute
+    [":S"] = { ":%s//&/g<left><left><left><left>", desc = "Global substitute" },
+  },
+  t = {
+    ["<C-\\>"] = { "<C-\\><C-n>", desc = "Terminal normal mode" },
+  },
+  c = {
+    -- basic cursor movement in insert mode
+    ["<C-j>"] = { "<Down>" },
+    ["<C-k>"] = { "<Up>" },
+    ["<C-l>"] = { "<Right>" },
+    ["<C-h>"] = { "<Left>" },
+  },
+  i = {
+    -- basic cursor movement in insert mode
+    ["<C-j>"] = { "<Down>" },
+    ["<C-k>"] = { "<Up>" },
+    ["<C-l>"] = { "<Right>" },
+    ["<C-h>"] = { "<Left>" },
+    -- ["<C-Right>"] = { "<esc>lwi" },
+    -- ["<C-Left>"] = { "<esc>gea" },
+    -- ctrl arrow jump to word boundaries
+    ["<C-Right>"] = { function() vim.fn.search([[\<\|\>]]) end },
+    ["<C-Left>"] = { function() vim.fn.search([[\<\|\>]], "b") end },
+  },
+  v = {
+    ["<S-j>"] = { "<esc><cmd>'<,'>m '>+1<cr>gv", desc = "Move line down" },
+    ["<S-k>"] = { "<esc><cmd>'<,'>m '<-2<cr>gv", desc = "Move line up" },
+    ["<C-j>"] = { "<esc><cmd>'<,'>t '><cr>`[V`]", desc = "Copy line down" },
+    ["<C-k>"] = { "<esc><cmd>'<,'>t '<-1<cr>`[V`]o", desc = "Copy line up" },
+    -- force cursor to stay at the same position after visual yank
+    ["y"] = { "ygv<esc>" },
+    -- visual selection send to terminal
+    ["<leader>e"] = {
+      function()
+        return vim.api.nvim_get_mode().mode == "V" and "<esc><cmd>'<,'>ToggleTermSendVisualLines<cr>"
+            or "<esc><cmd>'<,'>ToggleTermSendVisualSelection<cr>"
+      end,
+      expr = true,
+      desc = "Execute in terminal",
+    },
+    ["/"] = { "<esc>/\\%V" },
+    -- better substitute
+    [":S"] = { ":s/\\%V/&/g<left><left><left><left>", desc = "Selection substitute" },
+  },
+  o = {
+    -- ["ac"] = { name = "code (treesitter)" },
+    -- ["ic"] = { name = "code (treesitter)" },
+    -- for available node groups view completion options, or at:
+    -- https://github.com/nvim-treesitter/nvim-treesitter-textobjects/blob/master/CONTRIBUTING.md
+    ["af"] = { "<cmd>TSTextobjectSelect @function.outer<cr>", desc = "a TS function" },
+    ["if"] = { "<cmd>TSTextobjectSelect @function.inner<cr>", desc = "inner TS function" },
+    ["ac"] = { "<cmd>TSTextobjectSelect @class.outer<cr>", desc = "a TS class" },
+    ["ic"] = { "<cmd>TSTextobjectSelect @class.inner<cr>", desc = "inner TS class" },
+    ["aa"] = { "<cmd>TSTextobjectSelect @parameter.outer<cr>", desc = "around TS argument" },
+    ["ia"] = { "<cmd>TSTextobjectSelect @parameter.inner<cr>", desc = "inner TS argument" },
+    ["al"] = { "<cmd>TSTextobjectSelect @loop.outer<cr>", desc = "a TS loop" },
+    ["il"] = { "<cmd>TSTextobjectSelect @loop.inner<cr>", desc = "inner TS loop" },
+    ["an"] = { "<cmd>TSTextobjectSelect @conditional.outer<cr>", desc = "a TS conditional" },
+    ["in"] = { "<cmd>TSTextobjectSelect @conditional.inner<cr>", desc = "inner TS conditional" },
+    -- ["al"] = { "<cmd>TSTextobjectSelect @call.outer<cr>", desc = "a TS call" },
+    -- ["il"] = { "<cmd>TSTextobjectSelect @call.inner<cr>", desc = "inner TS call parameters" },
+  },
 }
 
 -- automatically add all operator-pending keymaps to visual mode
