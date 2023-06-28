@@ -14,6 +14,11 @@ local mappings = {
 			end,
 			desc = "Toggle autosave",
 		},
+		-- resize windows with <c-hjkl>
+		["<C-k>"] = { function() require("smart-splits").resize_up() end, desc = "Resize split up" },
+		["<C-j>"] = { function() require("smart-splits").resize_down() end, desc = "Resize split down" },
+		["<C-h>"] = { function() require("smart-splits").resize_left() end, desc = "Resize split left" },
+		["<C-l>"] = { function() require("smart-splits").resize_right() end, desc = "Resize split right" },
 		-- more logical redo
 		["U"] = {"<C-r>"},
 		-- leave leader-e to telescope-file-browser
@@ -84,6 +89,13 @@ local mappings = {
 	},
 	t = {
 		["<C-\\>"] = { "<C-\\><C-n>", desc = "Terminal normal mode" },
+	},
+	c = {
+		-- basic cursor movement in insert mode
+		["<C-j>"] = { "<Down>" },
+		["<C-k>"] = { "<Up>" },
+		["<C-l>"] = { "<Right>" },
+		["<C-h>"] = { "<Left>" },
 	},
 	i = {
 		-- basic cursor movement in insert mode
