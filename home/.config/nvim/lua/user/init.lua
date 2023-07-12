@@ -17,7 +17,7 @@ return {
     },
   },
   -- Set colorscheme to use
-  colorscheme = "moonfly", -- tokyonight-night, or the default "astrodark"
+  colorscheme = "rose-pine", -- tokyonight-night, or the default "astrodark"
   cmp = {
     source_priority = {
       nvim_lsp = 1000,
@@ -67,33 +67,32 @@ return {
     -- politely taken from tokyo night:
     -- https://github.com/folke/tokyonight.nvim/blob/main/extras/lua/tokyonight_night.lua#L706
     local function leap_colorscheme(_)
-        local highlights = {
-          LeapBackdrop = {
-            fg = "#545c7e"
-          },
-          LeapLabelPrimary = {
-            bold = true,
-            fg = "#ff007c"
-          },
-          LeapLabelSecondary = {
-            bold = true,
-            fg = "#4fd6be"
-          },
-          LeapMatch = {
-            bg = "#ff007c",
-            bold = true,
-            fg = "#c8d3f5"
-          },
-        }
-        for name, configs in pairs(highlights) do
-          vim.api.nvim_set_hl(0, name, configs)
-        end
+      local highlights = {
+        LeapBackdrop = {
+          fg = "#545c7e"
+        },
+        LeapLabelPrimary = {
+          bold = true,
+          fg = "#ff007c"
+        },
+        LeapLabelSecondary = {
+          bold = true,
+          fg = "#4fd6be"
+        },
+        LeapMatch = {
+          bg = "#ff007c",
+          bold = true,
+          fg = "#c8d3f5"
+        },
+      }
+      for name, configs in pairs(highlights) do
+        vim.api.nvim_set_hl(0, name, configs)
       end
-    -- force leap colorscheme after plugins loaded and after eahc colorscheme change
+    end
+    -- force leap colorscheme after plugins loaded and after each colorscheme change
     leap_colorscheme()
     vim.api.nvim_create_autocmd({ "ColorScheme" }, {
       callback = leap_colorscheme
     })
-
   end,
 }
