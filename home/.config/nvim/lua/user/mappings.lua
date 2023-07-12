@@ -1,6 +1,8 @@
 local mappings = {
   -- first key is the mode
   n = {
+    -- entering command mode easily
+    [";"] = {":"},
     -- editor-wide file saving operations
     ["<leader>w"] = { "<cmd>wall! <cr>", desc = "Save all" },
     ["<leader>q"] = { "<cmd>silent! wall | quitall<cr>", desc = "Save all & quit" },
@@ -85,8 +87,6 @@ local mappings = {
     ["<leader>uI"] = { "<cmd>IndentBlanklineToggle<cr>", desc = "Toggle indent lines" },
     -- convenient toggle terminal
     ["<C-\\>"] = { "<cmd>ToggleTerm<cr>", desc = "Toggle terminal" },
-    -- better substitute
-    [":S"] = { ":%s//&/g<left><left><left><left>", desc = "Global substitute" },
   },
   t = {
     ["<C-\\>"] = { "<C-\\><C-n>", desc = "Terminal normal mode" },
@@ -111,6 +111,8 @@ local mappings = {
     ["<C-Left>"] = { function() vim.fn.search([[\<\|\>]], "b") end },
   },
   v = {
+    -- entering command mode easily
+    [";"] = {":"},
     ["<S-j>"] = { "<esc><cmd>'<,'>m '>+1<cr>gv", desc = "Move line down" },
     ["<S-k>"] = { "<esc><cmd>'<,'>m '<-2<cr>gv", desc = "Move line up" },
     ["<C-j>"] = { "<esc><cmd>'<,'>t '><cr>`[V`]", desc = "Copy line down" },
@@ -127,8 +129,6 @@ local mappings = {
       desc = "Execute in terminal",
     },
     ["/"] = { "<esc>/\\%V" },
-    -- better substitute
-    [":S"] = { ":s/\\%V/&/g<left><left><left><left>", desc = "Selection substitute" },
   },
   o = {
     -- ["ac"] = { name = "code (treesitter)" },

@@ -30,6 +30,14 @@ return {
   -- augroups/autocommands and custom filetypes also this just pure lua so
   -- anything that doesn't fit in the normal config locations above can go here
   polish = function()
+    -- substitute boilerplate
+    vim.api.nvim_create_user_command("S", function(opts)
+        local visual = opts.range == 2 and "\\%V" or ""
+        local cmd = ":%s/" .. visual .. "/&/g" .. ("<left>"):rep(4)
+        cmd = vim.api.nvim_replace_termcodes(cmd, true, true, true)
+        vim.fn.feedkeys(cmd, "n")
+      end,
+      { force = true, range = true })
     -- auto insert mode when creating terminals, entering from another buffer
     -- and when switching to a terminal in a split window
     -- vim.api.nvim_create_autocmd({ "TermOpen", "BufWinEnter", "BufEnter" }, {
