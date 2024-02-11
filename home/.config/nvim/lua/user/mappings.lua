@@ -17,6 +17,9 @@ local mappings = {
       end,
       desc = "Toggle autosave",
     },
+    -- reselect visual (gv) but for pasted text
+    -- credits: https://vim.fandom.com/wiki/Selecting_your_pasted_text
+    ["gp"] = { "`[v`]", desc = "switch to VISUAL using last pasted text"},
     -- resize windows with <c-hjkl>
     ["<C-k>"] = { function() require("smart-splits").resize_up() end, desc = "Resize split up" },
     ["<C-j>"] = { function() require("smart-splits").resize_down() end, desc = "Resize split down" },

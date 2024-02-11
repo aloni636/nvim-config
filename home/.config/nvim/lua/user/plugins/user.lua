@@ -117,6 +117,33 @@ return {
       -- auto insert mode when entering toggleterm terminals
       on_open = function(_) vim.cmd("startinsert") end
     }
+  },
+  {
+    "jbyuki/one-small-step-for-vimkind",
+    dependencies = { "mfussenegger/nvim-dap" },
+    config = function()
+      local dap = require "dap"
+      dap.configurations.lua = {
+        {
+          type = 'nlua',
+          request = 'attach',
+          name = "Attach to running Neovim instance",
+        }
+      }
+      dap.adapters.nlua = function(callback, config)
+        callback({ type = 'server', host = config.host or "127.0.0.1", port = config.port or 8086 })
+      end
+    end,
+    event = "User AstroFile",
+  },
+  {
+    "ggandor/leap-spooky.nvim",
+    dependencies = {  "ggandor/leap.nvim" },
+    opts = {
+      prefix = true,
+      paste_on_remote_yank = true
+    },
+    lazy = false,
   }
   -- {
   --   "danymat/neogen",

@@ -17,7 +17,7 @@ return {
     },
   },
   -- Set colorscheme to use
-  colorscheme = "rose-pine", -- tokyonight-night, or the default "astrodark"
+  colorscheme = "tokyonight-night", -- tokyonight-night, or the default "astrodark"
   cmp = {
     source_priority = {
       nvim_lsp = 1000,
@@ -32,6 +32,8 @@ return {
   polish = function()
     -- substitute boilerplate
     vim.api.nvim_create_user_command("S", function(opts)
+      -- if command range is detected, we are in visual mode 
+      -- (vim automatically inserts '<,'> when entering command mode form visual mode) 
         local visual = opts.range == 2 and "\\%V" or ""
         local cmd = ":%s/" .. visual .. "/&/g" .. ("<left>"):rep(4)
         cmd = vim.api.nvim_replace_termcodes(cmd, true, true, true)
